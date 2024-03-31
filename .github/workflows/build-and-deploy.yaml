@@ -1,4 +1,4 @@
-name: Deploy Nginx
+name: Deploy Nginx in gke
 
 on:
   push:
@@ -26,13 +26,13 @@ jobs:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/demo/nginx:latest .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/demo/nginx:latest
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/githubactions/nginx:latest .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/githubactions/nginx:latest
 
     - name: deploy to gke
       env:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
-        gcloud container clusters get-credentials autopilot-cluster-1 --region us-central1
+        gcloud container clusters get-credentials githubaction --zone us-central1-c --project swift-terra-417207
         sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" resources.yaml
         kubectl apply -f resources.yaml
