@@ -1,3 +1,3 @@
 FROM nginx:latest
 
-RUN echo "Hello World!" > /usr/share/nginx/html/index.html
+RUN echo "Github-Actions today 31 march" > /usr/share/nginx/html/index.html
